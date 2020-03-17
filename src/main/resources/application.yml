@@ -1,0 +1,40 @@
+server:
+  port: 7979
+
+spring:
+  application:
+    name: ananops-gateway
+
+#  http:
+#    encoding:
+#      charset: UTF-8
+#      force: true
+#      enabled: true
+#    multipart:
+#      enabled: true
+#      max-request-size: 50MB
+#      max-file-size: 50MB
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+      - id: annaops-provider-uac
+        uri: lb://ananops-provider-uac
+        predicates:
+        - Path=/uac/**
+        filters:
+        - StripPrefix=1
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://root:root@ananops-eureka:8761/eureka/
+
+logging:
+  level: #调整相关包的 log 级别，以便排查问题
+    org.springframework.cloud.gateway: debug
