@@ -27,11 +27,21 @@ spring:
         predicates:
         - Path=/uac/**
         filters:
+        - GwSwaggerHeaderFilter
         - StripPrefix=1
+      - id: annaops-provider-imc
+        uri: lb://ananops-provider-imc
+        predicates:
+          - Path=/imc/**
+        filters:
+          - GwSwaggerHeaderFilter
+          - StripPrefix=1
 
 
 eureka:
   client:
+    instance:
+      prefer-ip-address: true
     serviceUrl:
       defaultZone: http://root:root@ananops-eureka:8761/eureka/
 
